@@ -1,0 +1,55 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+Actor User
+Participant "Game Engine" as Engine
+Participant "Game View" as View
+Participant "Game Model" as Model
+
+User -> Engine: Start game
+activate Engine
+
+Engine -> Model: Initialize game
+activate Model
+Model --> Engine: Game initialized
+deactivate Model
+
+Engine -> View: Display game
+activate View
+View --> Engine: Game displayed
+deactivate View
+
+loop Game is not over
+    User -> Engine: Roll dice
+    activate Engine
+
+    Engine -> Model: Update game state
+    activate Model
+    Model --> Engine: Game state updated
+    deactivate Model
+
+    Engine -> View: Display game state
+    activate View
+    View --> Engine: Game state displayed
+    deactivate View
+
+    Engine --> User: Wait for next move
+    deactivate Engine
+end
+
+User -> Engine: End game
+activate Engine
+Engine -> Model: Finalize game
+activate Model
+Model --> Engine: Game finalized
+deactivate Model
+
+Engine -> View: Display game over
+activate View
+View --> Engine: Game over displayed
+deactivate View
+
+deactivate Engine
+
+@enduml
